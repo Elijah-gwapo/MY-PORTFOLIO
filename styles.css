@@ -399,8 +399,26 @@ p {
     margin-top: 30px;
 }
 
+.skills-section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.skills-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+
 .skill-category {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     opacity: 0;
     transform: translateY(20px);
 }
@@ -475,6 +493,9 @@ p {
 .skill:hover .devicon-github-original,
 .skill:hover .devicon-visualstudio-plain,
 .skill:hover .devicon-figma-plain,
+.skill:hover .devicon-windows8-original,
+.skill:hover .devicon-apple-original,
+.skill:hover .devicon-linux-plain,
 .skill:hover .fas.fa-mobile-alt,
 .skill:hover .fas.fa-project-diagram,
 .skill:hover .fas.fa-paint-brush,
@@ -510,7 +531,7 @@ p {
 .devicon-react-original { color: #61dbfb; }
 .devicon-vuejs-plain { color: #42b883; }
 .devicon-nodejs-plain { color: #68a063; }
-.devicon-express-original { color: #black; }
+.devicon-express-original { color: #000000; }
 .devicon-php-plain { color: #777bb4; }
 .devicon-python-plain { color: #3776ab; }
 .devicon-mysql-plain { color: #4479a1; }
@@ -521,6 +542,9 @@ p {
 .devicon-github-original { color: #181717; }
 .devicon-visualstudio-plain { color: #007acc; }
 .devicon-figma-plain { color: #f24e1e; }
+.devicon-windows8-original { color: #0078d7; }
+.devicon-apple-original { color: #a2aaad; }
+.devicon-linux-plain { color: #f0f0f0; background: #000; border-radius: 50%; }
 .fas.fa-mobile-alt { color: #1572b6; }
 .fas.fa-project-diagram { color: #cb2027; }
 .fas.fa-paint-brush { color: #fd6c6c; }
