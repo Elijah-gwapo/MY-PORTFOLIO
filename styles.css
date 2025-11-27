@@ -454,27 +454,77 @@ p {
     border-color: transparent;
 }
 
-.skill:hover .skill-icon {
-    color: white;
-    transform: scale(1.1);
-}
-
 .skill:hover .skill-name {
     color: white;
+}
+
+.skill:hover .devicon-html5-plain,
+.skill:hover .devicon-css3-plain,
+.skill:hover .devicon-javascript-plain,
+.skill:hover .devicon-react-original,
+.skill:hover .devicon-vuejs-plain,
+.skill:hover .devicon-nodejs-plain,
+.skill:hover .devicon-express-original,
+.skill:hover .devicon-php-plain,
+.skill:hover .devicon-python-plain,
+.skill:hover .devicon-mysql-plain,
+.skill:hover .devicon-mongodb-plain,
+.skill:hover .devicon-postgresql-plain,
+.skill:hover .devicon-firebase-plain,
+.skill:hover .devicon-git-plain,
+.skill:hover .devicon-github-original,
+.skill:hover .devicon-visualstudio-plain,
+.skill:hover .devicon-figma-plain,
+.skill:hover .fas.fa-mobile-alt,
+.skill:hover .fas.fa-project-diagram,
+.skill:hover .fas.fa-paint-brush,
+.skill:hover .fas.fa-bolt {
+    filter: brightness(0) saturate(100%) invert(99%) sepia(0%) saturate(2%) hue-rotate(181deg) brightness(108%) contrast(100%);
 }
 
 .skill-icon {
     font-size: 2rem;
     margin-bottom: 8px;
-    color: var(--primary-color);
     transition: var(--transition);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 5px;
 }
 
 .skill-name {
     color: var(--text-color);
     font-weight: 500;
     transition: var(--transition);
+    margin-top: 5px;
+    font-size: 0.85rem;
 }
+
+/* Specific brand colors for each technology */
+.devicon-html5-plain { color: #e44d26; }
+.devicon-css3-plain { color: #264de4; }
+.devicon-javascript-plain { color: #f0db4f; text-shadow: 0 0 5px rgba(240, 219, 79, 0.5); }
+.devicon-react-original { color: #61dbfb; }
+.devicon-vuejs-plain { color: #42b883; }
+.devicon-nodejs-plain { color: #68a063; }
+.devicon-express-original { color: #black; }
+.devicon-php-plain { color: #777bb4; }
+.devicon-python-plain { color: #3776ab; }
+.devicon-mysql-plain { color: #4479a1; }
+.devicon-mongodb-plain { color: #4faa4c; }
+.devicon-postgresql-plain { color: #336791; }
+.devicon-firebase-plain { color: #ffca28; }
+.devicon-git-plain { color: #f05032; }
+.devicon-github-original { color: #181717; }
+.devicon-visualstudio-plain { color: #007acc; }
+.devicon-figma-plain { color: #f24e1e; }
+.fas.fa-mobile-alt { color: #1572b6; }
+.fas.fa-project-diagram { color: #cb2027; }
+.fas.fa-paint-brush { color: #fd6c6c; }
+.fas.fa-bolt { color: #ffd700; }
 
 /* Education Section */
 .education {
