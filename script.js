@@ -104,10 +104,9 @@ if (contactForm) {
         e.preventDefault();
         
         // Get form values
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const message = formData.get('message');
+        const name = contactForm.querySelector('input[name="name"]').value;
+        const email = contactForm.querySelector('input[name="email"]').value;
+        const message = contactForm.querySelector('textarea[name="message"]').value;
         
         // Here you would typically send the data to a server
         console.log('Form submitted:', { name, email, message });
@@ -156,5 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
             item.style.opacity = '1';
             item.style.transform = 'translateY(0)';
         }, 400 + (index * 200));
+    });
+    
+    // Add staggered animation to skill categories
+    const skillCategories = document.querySelectorAll('.skill-category');
+    skillCategories.forEach((category, index) => {
+        setTimeout(() => {
+            category.style.opacity = '1';
+            category.style.transform = 'translateY(0)';
+        }, 500 + (index * 100));
     });
 });

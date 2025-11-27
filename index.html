@@ -74,13 +74,48 @@
                         Through my studies, I've developed skills in web development technologies including HTML, CSS, 
                         JavaScript, and various frameworks.
                     </p>
-                    <div class="skills">
-                        <div class="skill">HTML5</div>
-                        <div class="skill">CSS3</div>
-                        <div class="skill">JavaScript</div>
-                        <div class="skill">React</div>
-                        <div class="skill">UI/UX Design</div>
-                        <div class="skill">Responsive Design</div>
+                    <div class="skills-container">
+                        <div class="skill-category">
+                            <h3 class="skill-category-title">Frontend</h3>
+                            <div class="skills">
+                                <div class="skill">HTML5</div>
+                                <div class="skill">CSS3</div>
+                                <div class="skill">JavaScript</div>
+                                <div class="skill">React</div>
+                                <div class="skill">Vue.js</div>
+                                <div class="skill">Responsive Design</div>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3 class="skill-category-title">Backend</h3>
+                            <div class="skills">
+                                <div class="skill">Node.js</div>
+                                <div class="skill">Express</div>
+                                <div class="skill">PHP</div>
+                                <div class="skill">Python</div>
+                                <div class="skill">RESTful APIs</div>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3 class="skill-category-title">Database</h3>
+                            <div class="skills">
+                                <div class="skill">MySQL</div>
+                                <div class="skill">MongoDB</div>
+                                <div class="skill">PostgreSQL</div>
+                                <div class="skill">Firebase</div>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3 class="skill-category-title">Tools & Others</h3>
+                            <div class="skills">
+                                <div class="skill">Git</div>
+                                <div class="skill">GitHub</div>
+                                <div class="skill">VS Code</div>
+                                <div class="skill">Figma</div>
+                                <div class="skill">UI/UX Design</div>
+                                <div class="skill">WebSockets</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,13 +252,13 @@
                 </div>
                 <form class="contact-form">
                     <div class="form-group">
-                        <input type="text" placeholder="Your Name" required>
+                        <input type="text" name="name" placeholder="Your Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" placeholder="Your Email" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
