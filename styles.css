@@ -426,17 +426,24 @@ p {
 .skills {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
 }
 
 .skill {
     background: white;
-    padding: 8px 16px;
+    padding: 12px 16px;
     border-radius: 50px;
     font-size: 0.9rem;
     box-shadow: var(--shadow);
     transition: var(--transition);
     border: 1px solid rgba(99, 102, 241, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 80px;
+    min-height: 80px;
 }
 
 .skill:hover {
@@ -445,6 +452,28 @@ p {
     background: var(--primary-color);
     color: white;
     border-color: transparent;
+}
+
+.skill:hover .skill-icon {
+    color: white;
+    transform: scale(1.1);
+}
+
+.skill:hover .skill-name {
+    color: white;
+}
+
+.skill-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.skill-name {
+    color: var(--text-color);
+    font-weight: 500;
+    transition: var(--transition);
 }
 
 /* Education Section */
