@@ -1,0 +1,38 @@
+
+> portfolio@0.1.0 build
+> next build
+
+   ▲ Next.js 14.0.0
+
+   Creating an optimized production build ...
+(node:29605) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+
+🌼   daisyUI 4.12.24
+├─ ✔︎ 1 theme added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/4) ...
+   Generating static pages (1/4) 
+   Generating static pages (2/4) 
+   Generating static pages (3/4) 
+ ✓ Generating static pages (4/4) 
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    78.1 kB         166 kB
+└ ○ /_not-found                          875 B          88.6 kB
++ First Load JS shared by all            87.7 kB
+  ├ chunks/472-01f12fa5052541e0.js       32.4 kB
+  ├ chunks/fd9d1056-7ff2fe48fdac41a1.js  53.3 kB
+  ├ chunks/main-app-d4942c0cb5746e34.js  231 B
+  └ chunks/webpack-fe12ff59a3e888f6.js   1.79 kB
+
+
+○  (Static)  prerendered as static HTML
+

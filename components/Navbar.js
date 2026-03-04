@@ -2,69 +2,91 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 export default function Navbar() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const navLinks = [
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Education', href: '#education' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Design', href: '#sample-design' },
+    { name: 'Contact', href: '#contact' },
+  ];
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'py-4 bg-bg-color/80 backdrop-blur-md shadow-sm border-b border-white/5' : 'py-6 bg-transparent'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${isScrolled ? 'py-4 bg-[#030308]/80 backdrop-blur-xl border-b border-white/5' : 'py-8 bg-transparent'}`}>
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 origin-left"
+        style={{ scaleX }}
+      />
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="text-xl font-bold text-white tracking-wide">
-          <Link href="/">ELIJAH<span className="text-primary">.</span></Link>
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="text-2xl font-black text-white tracking-tighter"
+        >
+          <Link href="/">ELIJAH<span className="text-blue-600">.</span></Link>
+        </motion.div>
+
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((link, i) => (
+            <motion.div
+              key={link.name}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <Link 
+                href={link.href} 
+                className="px-5 py-2 text-[11px] font-black tracking-[0.2em] text-slate-400 hover:text-white uppercase transition-colors relative group"
+              >
+                {link.name}
+                <span className="absolute bottom-0 left-5 right-5 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              </Link>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link href="#home" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Home</Link>
-          <Link href="#about" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">About</Link>
-          <Link href="#skills" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Skills</Link>
-          <Link href="#education" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Education</Link>
-          <Link href="#projects" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Projects</Link>
-          <Link href="#contact" className="text-sm font-medium text-gray-300 hover:text-primary transition-colors">Contact</Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center">
-          <button
-            onClick={toggleMenu}
-            className="p-2 text-white focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            <div className="space-y-1.5">
-              <span className={`block w-6 h-0.5 bg-current transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-current transition-opacity ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`block w-6 h-0.5 bg-current transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        <div className="md:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="w-10 h-10 flex items-center justify-center text-white">
+            <div className="w-6 space-y-1.5">
+              <span className={`block h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : 'w-6'}`}></span>
+              <span className={`block h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-4'}`}></span>
+              <span className={`block h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2' : 'w-5'}`}></span>
             </div>
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-card-bg absolute top-full left-0 w-full border-b border-white/5 shadow-xl">
-          <div className="flex flex-col py-4 px-6 space-y-4">
-            <Link href="#home" className="text-gray-300 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>Home</Link>
-            <Link href="#about" className="text-gray-300 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>About</Link>
-            <Link href="#skills" className="text-gray-300 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>Skills</Link>
-            <Link href="#education" className="text-gray-300 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>Education</Link>
-            <Link href="#projects" className="text-gray-300 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>Projects</Link>
-            <Link href="#contact" className="text-gray-300 hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden absolute top-full left-0 w-full bg-[#030308]/95 backdrop-blur-2xl border-b border-white/5 shadow-2xl"
+        >
+          <div className="flex flex-col py-8 px-6 gap-6">
+            {navLinks.map((link) => (
+              <Link key={link.name} href={link.href} className="text-sm font-black tracking-[0.3em] text-slate-400 hover:text-blue-500 uppercase transition-colors" onClick={() => setIsMenuOpen(false)}>{link.name}</Link>
+            ))}
           </div>
-        </div>
+        </motion.div>
       )}
     </nav>
   );

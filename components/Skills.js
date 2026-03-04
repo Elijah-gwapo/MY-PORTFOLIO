@@ -1,5 +1,31 @@
-import Link from 'next/link';
-import Image from 'next/image';
+'use client';
+
+import { motion } from 'framer-motion';
+
+const customCSS = `
+  .glass-card-skills {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+  }
+  .glass-card-skills:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-10px);
+  }
+  .skill-icon-container {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+  .group:hover .skill-icon-container {
+    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(59, 130, 246, 0.05);
+  }
+`;
 
 export default function Skills() {
   const skillCategories = [
@@ -45,37 +71,72 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-24 bg-bg-color">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-white flex items-center gap-4">
-          <span className="w-12 h-0.5 bg-secondary"></span>
-          Technical Skills
+    <section id="skills" className="py-32 bg-[#030308] relative overflow-hidden bg-grid">
+      <style dangerouslySetInnerHTML={{ __html: customCSS }} />
+      
+      {/* Background large stroke text */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none z-0">
+        <h2 className="text-[20vw] font-black text-white/[0.02] uppercase tracking-tighter leading-none select-none">
+          SKILLS
         </h2>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <span className="text-blue-500 font-bold tracking-[0.3em] uppercase text-sm mb-4 block">EXPERTIZES</span>
+          <h2 className="text-6xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">Technical Skills</h2>
+          <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]"></div>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <motion.div 
+          variants={{
+            hidden: { opacity: 0 },
+            show: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2
+              }
+            }
+          }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto"
+        >
           {skillCategories.map((category, index) => (
-            <div key={index} className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group/card">
-              <h3 className="text-xl font-semibold mb-6 text-white flex items-center gap-3">
-                <span className="w-1 h-6 bg-gradient-to-b from-primary to-secondary rounded-full"></span>
+            <motion.div 
+              key={index} 
+              variants={{
+                hidden: { opacity: 0, scale: 0.8, x: index % 2 === 0 ? -100 : 100, rotate: index % 2 === 0 ? -5 : 5 },
+                show: { opacity: 1, scale: 1, x: 0, rotate: 0 }
+              }}
+              transition={{ type: "spring", stiffness: 100, damping: 15 }}
+              className="p-10 rounded-[3rem] glass-card-skills border border-white/5 group/card"
+            >
+              <h3 className="text-3xl font-black mb-10 text-white flex items-center gap-4 uppercase tracking-tighter">
+                <span className="w-2 h-10 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(37,99,235,0.5)]"></span>
                 {category.title}
               </h3>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-6">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-10">
                 {category.skills.map((skill, skillIndex) => (
-                  <div 
-                    key={skillIndex} 
-                    className="flex flex-col items-center gap-3 group"
-                  >
-                    <div className="w-12 h-12 flex items-center justify-center bg-bg-color/50 rounded-xl border border-white/5 group-hover:border-primary/30 group-hover:bg-bg-color transition-all duration-300 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <i className={`${skill.icon} text-3xl ${skill.color} transition-transform duration-300 group-hover:scale-110 relative z-10`}></i>
+                  <div key={skillIndex} className="flex flex-col items-center gap-4 group cursor-default">
+                    <div className="w-16 h-16 flex items-center justify-center rounded-[1.5rem] skill-icon-container relative overflow-hidden">
+                      <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <i className={`${skill.icon} text-4xl ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6 relative z-10`}></i>
                     </div>
-                    <span className="text-xs font-medium text-slate-400 group-hover:text-slate-200 transition-colors">{skill.name}</span>
+                    <span className="text-[11px] font-black tracking-[0.2em] text-slate-500 uppercase group-hover:text-blue-400 transition-colors">{skill.name}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
