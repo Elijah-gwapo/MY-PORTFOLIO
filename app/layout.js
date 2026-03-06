@@ -1,6 +1,7 @@
 import './globals.css'
 import { Poppins } from 'next/font/google'
-import Cursor from '../components/Cursor'
+import Preloader from '../components/Preloader'
+import SmoothScroll from '../components/SmoothScroll'
 
 const poppins = Poppins({ 
   subsets: ['latin'], 
@@ -22,7 +23,10 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className={`${poppins.className} bg-bg-color text-white antialiased`}>
-        {children}
+        <SmoothScroll>
+          <Preloader />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   )

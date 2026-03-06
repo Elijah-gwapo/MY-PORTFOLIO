@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useSpring } from 'framer-motion';
+import HackerText from './HackerText';
 
 export default function Navbar() {
   const { scrollYProgress } = useScroll();
@@ -42,7 +43,10 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           className="text-2xl font-black text-white tracking-tighter"
         >
-          <Link href="/">ELIJAH<span className="text-blue-600">.</span></Link>
+          <Link href="/" className="flex items-center">
+            <HackerText text="ELIJAH" />
+            <span className="text-blue-600">.</span>
+          </Link>
         </motion.div>
 
         <div className="hidden md:flex items-center gap-1">

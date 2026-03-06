@@ -4,9 +4,9 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 3, 3, 8;
-  --background-end-rgb: 0, 0, 0;
-  --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
+  --background-rgb: 0, 0, 0;
+  --accent-color: #38bdf8;
+  --text-muted: #888888;
 }
 
 * {
@@ -18,62 +18,51 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: #030308;
+  background: rgb(var(--background-rgb));
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom background patterns */
-.bg-mesh {
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.05) 0px, transparent 50%);
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+/* Section Prefixes like Jay Chauhan */
+.section-prefix {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: #444;
+  letter-spacing: 0.2em;
 }
 
-.bg-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+/* Texture Layer */
+.bg-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
 }
 
-.bg-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Reveal Animations helper */
+.reveal-text {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
-/* Typography Enhancements */
-.text-stroke {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-  color: transparent;
-}
-
-.text-glow {
-  text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-}
-
-/* Glassmorphism Refinement */
-.glass {
+/* Glass Refinement */
+.glass-premium {
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.glass-hover {
-  transition: all 0.3s ease;
-}
-
-.glass-hover:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+.text-glow {
+  text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
 }
 
 /* Selection */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: #fff;
+  background: #38bdf8;
+  color: #000;
 }

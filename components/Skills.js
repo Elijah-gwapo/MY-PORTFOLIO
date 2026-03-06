@@ -1,83 +1,77 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
-const customCSS = `
-  .glass-card-skills {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-  }
-  .glass-card-skills:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(59, 130, 246, 0.3);
-    transform: translateY(-10px);
-  }
-  .skill-icon-container {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-  }
-  .group:hover .skill-icon-container {
-    border-color: rgba(59, 130, 246, 0.3);
-    background: rgba(59, 130, 246, 0.05);
-  }
-`;
+import { Code2, Server, Database, Terminal, Cpu, Globe, Zap, Shield } from 'lucide-react';
 
 export default function Skills() {
   const skillCategories = [
     {
       title: "Frontend",
+      icon: <Globe className="w-6 h-6 text-blue-500" />,
       skills: [
-        { name: "HTML5", icon: "devicon-html5-plain", color: "text-[#e44d26]" },
-        { name: "CSS3", icon: "devicon-css3-plain", color: "text-[#264de4]" },
-        { name: "JavaScript", icon: "devicon-javascript-plain", color: "text-[#f0db4f]" },
-        { name: "React", icon: "devicon-react-original", color: "text-[#61dbfb]" },
-        { name: "Tailwind CSS", icon: "devicon-tailwindcss-plain", color: "text-[#38bdf8]" },
-        { name: "DaisyUI", icon: "fas fa-wind", color: "text-white" },
+        { name: "HTML5", color: "bg-orange-500/10 text-orange-500" },
+        { name: "CSS3", color: "bg-blue-500/10 text-blue-500" },
+        { name: "JavaScript", color: "bg-yellow-500/10 text-yellow-500" },
+        { name: "React", color: "bg-cyan-500/10 text-cyan-500" },
+        { name: "Tailwind CSS", color: "bg-sky-500/10 text-sky-500" },
+        { name: "Framer Motion", color: "bg-pink-500/10 text-pink-500" },
+        { name: "GSAP", color: "bg-green-500/10 text-green-500" },
+        { name: "DaisyUI", color: "bg-white/10 text-white" },
       ]
     },
     {
       title: "Backend",
+      icon: <Server className="w-6 h-6 text-emerald-500" />,
       skills: [
-        { name: "Node.js", icon: "devicon-nodejs-plain", color: "text-[#68a063]" },
-        { name: "Express", icon: "devicon-express-original", color: "text-white" },
-        { name: "Angular", icon: "devicon-angularjs-plain", color: "text-[#dd0031]" },
-        { name: "Next.js", icon: "devicon-nextjs-plain", color: "text-white" },
+        { name: "Node.js", color: "bg-green-600/10 text-green-600" },
+        { name: "Express", color: "bg-white/10 text-white" },
+        { name: "Angular", color: "bg-red-600/10 text-red-600" },
+        { name: "Next.js", color: "bg-white/10 text-white" },
       ]
     },
     {
       title: "Database",
+      icon: <Database className="w-6 h-6 text-amber-500" />,
       skills: [
-        { name: "MySQL", icon: "devicon-mysql-plain", color: "text-[#4479a1]" },
-        { name: "Workbench", icon: "fas fa-database", color: "text-[#00758f]" },
-        { name: "MariaDB", icon: "fas fa-database", color: "text-[#005aab]" },
-        { name: "Firebase", icon: "devicon-firebase-plain", color: "text-[#ffca28]" },
+        { name: "MySQL", color: "bg-blue-600/10 text-blue-600" },
+        { name: "Workbench", color: "bg-cyan-600/10 text-cyan-600" },
+        { name: "MariaDB", color: "bg-blue-800/10 text-blue-800" },
+        { name: "Firebase", color: "bg-orange-400/10 text-orange-400" },
       ]
     },
     {
       title: "Tools & OS",
+      icon: <Terminal className="w-6 h-6 text-purple-500" />,
       skills: [
-        { name: "Git", icon: "devicon-git-plain", color: "text-[#f05032]" },
-        { name: "GitHub", icon: "devicon-github-original", color: "text-white" },
-        { name: "VS Code", icon: "devicon-visualstudio-plain", color: "text-[#007acc]" },
-        { name: "macOS", icon: "devicon-apple-original", color: "text-white" },
-        { name: "Linux Mint", icon: "devicon-linux-plain", color: "text-[#87cf3e]" },
+        { name: "Git", color: "bg-red-500/10 text-red-500" },
+        { name: "GitHub", color: "bg-white/10 text-white" },
+        { name: "VS Code", color: "bg-blue-500/10 text-blue-500" },
+        { name: "macOS", color: "bg-white/10 text-white" },
+        { name: "Linux Mint", color: "bg-green-500/10 text-green-500" },
       ]
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.9, y: 20 },
+    show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+  };
+
   return (
     <section id="skills" className="py-32 bg-[#030308] relative overflow-hidden bg-grid">
-      <style dangerouslySetInnerHTML={{ __html: customCSS }} />
       
-      {/* Background large stroke text */}
+      {/* Background large decorative text */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none z-0">
         <h2 className="text-[20vw] font-black text-white/[0.02] uppercase tracking-tighter leading-none select-none">
-          SKILLS
+          EXPERTISE
         </h2>
       </div>
 
@@ -85,53 +79,51 @@ export default function Skills() {
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="flex flex-col items-center mb-24 text-center"
         >
-          <span className="text-blue-500 font-bold tracking-[0.3em] uppercase text-sm mb-4 block">EXPERTIZES</span>
-          <h2 className="text-6xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">Technical Skills</h2>
-          <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]"></div>
+          <div className="relative">
+            <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter relative z-10">Technical Skills</h2>
+            <span className="absolute -top-10 -right-12 text-8xl font-black text-white/[0.03] italic pointer-events-none select-none">03</span>
+          </div>
+          <div className="w-24 h-1.5 bg-blue-600 mt-8 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]"></div>
         </motion.div>
         
         <motion.div 
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2
-              }
-            }
-          }}
+          variants={containerVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto"
         >
           {skillCategories.map((category, index) => (
             <motion.div 
               key={index} 
-              variants={{
-                hidden: { opacity: 0, scale: 0.8, x: index % 2 === 0 ? -100 : 100, rotate: index % 2 === 0 ? -5 : 5 },
-                show: { opacity: 1, scale: 1, x: 0, rotate: 0 }
-              }}
-              transition={{ type: "spring", stiffness: 100, damping: 15 }}
-              className="p-10 rounded-[3rem] glass-card-skills border border-white/5 group/card"
+              variants={itemVariants}
+              className="p-10 rounded-[4rem] bg-white/5 border border-white/10 group hover:border-blue-500/30 transition-all duration-700 shadow-2xl relative overflow-hidden"
             >
-              <h3 className="text-3xl font-black mb-10 text-white flex items-center gap-4 uppercase tracking-tighter">
-                <span className="w-2 h-10 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(37,99,235,0.5)]"></span>
-                {category.title}
-              </h3>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-10">
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-blue-600/5 rounded-full blur-[60px] group-hover:bg-blue-600/10 transition-all duration-1000"></div>
+              
+              <div className="flex items-center gap-6 mb-12">
+                <div className="p-4 bg-white/5 rounded-3xl border border-white/10 group-hover:scale-110 transition-transform duration-500">
+                  {category.icon}
+                </div>
+                <h3 className="text-4xl font-black text-white uppercase tracking-tighter group-hover:text-blue-400 transition-colors">
+                  {category.title}
+                </h3>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
                 {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="flex flex-col items-center gap-4 group cursor-default">
-                    <div className="w-16 h-16 flex items-center justify-center rounded-[1.5rem] skill-icon-container relative overflow-hidden">
-                      <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <i className={`${skill.icon} text-4xl ${skill.color} transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6 relative z-10`}></i>
-                    </div>
-                    <span className="text-[11px] font-black tracking-[0.2em] text-slate-500 uppercase group-hover:text-blue-400 transition-colors">{skill.name}</span>
-                  </div>
+                  <motion.div 
+                    key={skillIndex}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className={`px-6 py-3 rounded-2xl border border-white/5 font-black uppercase tracking-widest text-[10px] flex items-center gap-3 transition-all ${skill.color} hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]`}
+                  >
+                    <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></div>
+                    {skill.name}
+                  </motion.div>
                 ))}
               </div>
             </motion.div>

@@ -2,63 +2,55 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, Github, Layout, Server, Database } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const customCSS = `
-  .glass-card-project {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .glass-card-project:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(59, 130, 246, 0.3);
-    transform: translateY(-12px);
-  }
-  .tech-tag {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-`;
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Projects() {
+  const containerRef = useRef(null);
+
   const projects = [
     {
       id: 3,
-      title: "FONUS Cebu Federation Cooperatives",
+      title: "FONUS Cebu Federation",
+      category: "E-Commerce & Services",
       description: "A comprehensive memorial and funeral services platform for a federation cooperative in Cebu. Features memorial plan management, membership programs, and 24/7 service support.",
-      technologies: ["Next.js", "Tailwind", "Firebase"],
+      technologies: ["Next.js", "Tailwind", "Firebase", "Cloud Functions"],
       image: "/fonus.png",
       year: "2026",
-      link: "https://fonuscebu.netlify.app/"
+      link: "https://fonuscebu.netlify.app/",
+      accent: "from-blue-600 to-cyan-500"
     },
     {
       id: 2,
-      title: "Brisasolei Resort Booking",
+      title: "Brisasolei Resort",
+      category: "Booking System",
       description: "A comprehensive resort booking system currently in development. Features real-time availability checking, secure payment processing, and an intuitive admin dashboard.",
-      technologies: ["Next.js", "PostgreSQL", "Tailwind"],
+      technologies: ["Next.js", "PostgreSQL", "Prisma", "Tailwind"],
       image: "/brisasolei.png",
       year: "IN DEV",
       link: "https://brisasolei.netlify.app/",
-      isDevelopment: true
+      isDevelopment: true,
+      accent: "from-emerald-600 to-teal-500"
     },
     {
       id: 1,
-      title: "Senior High Grading System",
-      description: "A comprehensive grading system for Benedicto College's senior high school department, designed to streamline academic assessment processes.",
-      technologies: ["React", "JavaScript", "Bootstrap"],
+      title: "SHS Grading System",
+      category: "Academic Tool",
+      description: "A robust academic management platform for Benedicto College, streamlining grading workflows and student records for the senior high school department.",
+      technologies: ["React", "JavaScript", "Bootstrap", "MySQL"],
       image: "/benedicto.jpeg",
       year: "2024",
-      isAcademic: true
+      isAcademic: true,
+      accent: "from-indigo-600 to-blue-500"
     }
   ];
 
   return (
-    <section id="projects" className="py-32 bg-[#030308] relative overflow-hidden bg-grid">
-      <style dangerouslySetInnerHTML={{ __html: customCSS }} />
+    <section id="projects" ref={containerRef} className="py-32 bg-[#030308] relative overflow-hidden bg-grid">
       
       {/* Background large stroke text */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none z-0">
@@ -71,82 +63,96 @@ export default function Projects() {
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="flex flex-col items-center mb-32 text-center"
         >
-          <span className="text-blue-500 font-bold tracking-[0.3em] uppercase text-sm mb-4 block">WORK SAMPLES</span>
-          <h2 className="text-6xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">Featured Projects</h2>
-          <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]"></div>
+          <div className="relative">
+            <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter relative z-10">My Projects</h2>
+            <span className="absolute -top-10 -right-12 text-8xl font-black text-white/[0.03] italic pointer-events-none select-none">04</span>
+          </div>
+          <div className="w-24 h-1.5 bg-blue-600 mt-8 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]"></div>
         </motion.div>
         
-        <motion.div 
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2
-              }
-            }
-          }}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto"
-        >
+        <div className="grid grid-cols-1 gap-32 max-w-7xl mx-auto">
           {projects.map((project, index) => (
             <motion.div 
-              key={project.id} 
-              initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group glass-card-project rounded-[3rem] overflow-hidden flex flex-col h-full"
+              key={project.id}
+              initial={{ opacity: 0, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "-100px" }}
+              className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
             >
-              <div className="relative h-72 overflow-hidden">
-                <Image src={project.image} alt={project.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030308] via-transparent to-transparent opacity-80"></div>
-                <div className="absolute top-8 right-8 px-6 py-2 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white font-black tracking-widest uppercase text-xs">
-                  {project.year}
+              {/* Image Showcase */}
+              <div className="w-full lg:w-3/5 group cursor-pointer relative">
+                <div className="relative aspect-[16/10] rounded-[3rem] overflow-hidden bg-slate-900 shadow-2xl transition-all duration-700 group-hover:scale-[0.98]">
+                  <Image 
+                    src={project.image} 
+                    alt={project.title} 
+                    fill 
+                    className="object-cover object-top transition-transform duration-1000 group-hover:scale-110" 
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-20 mix-blend-overlay`}></div>
+                  
+                  {/* Floating Tech Badges */}
+                  <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end z-20">
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.slice(0, 3).map((tech, i) => (
+                        <span key={i} className="px-4 py-2 bg-black/60 backdrop-blur-md border border-white/10 rounded-xl text-[8px] font-black text-white uppercase tracking-widest">{tech}</span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-              <div className="p-10 flex flex-col flex-1">
-                <div className="flex gap-3 mb-6">
-                  {project.isAcademic && (
-                    <span className="text-[11px] font-black text-blue-400 tracking-[0.2em] uppercase px-3 py-1.5 rounded-full bg-blue-400/10 border border-blue-400/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]">Academic</span>
-                  )}
-                  {project.isDevelopment && (
-                    <span className="text-[11px] font-black text-yellow-400 tracking-[0.2em] uppercase px-3 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 flex items-center gap-2 shadow-[0_0_15px_rgba(250,204,21,0.1)]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
-                      In Development
-                    </span>
-                  )}
-                </div>
-                
-                <h3 className="text-3xl font-black mb-6 text-white group-hover:text-blue-400 transition-colors tracking-tighter uppercase">{project.title}</h3>
-                <p className="text-slate-400 text-lg mb-10 leading-relaxed line-clamp-3 font-medium">{project.description}</p>
-                
-                <div className="mt-auto pt-8 flex items-center justify-between border-t border-white/5">
-                  <div className="flex flex-wrap gap-3">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span key={techIndex} className="px-4 py-1.5 tech-tag text-slate-400 rounded-full text-[11px] font-black tracking-widest uppercase">
-                        {tech}
-                      </span>
-                    ))}
+
+              {/* Content Details */}
+              <div className={`w-full lg:w-2/5 space-y-8 ${index % 2 !== 0 ? 'lg:text-right lg:items-end' : ''} flex flex-col`}>
+                <div className="space-y-4">
+                  <div className={`flex items-center gap-4 text-blue-500 font-black tracking-widest text-[10px] uppercase ${index % 2 !== 0 ? 'justify-end' : ''}`}>
+                    <span className="w-8 h-px bg-blue-500/50"></span>
+                    {project.category}
+                    <span className="w-8 h-px bg-blue-500/50"></span>
                   </div>
-                  
-                  {project.link && (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 hover:bg-blue-600 hover:text-white transition-all duration-500 hover:rotate-12">
-                      <ExternalLink size={24} />
-                    </a>
-                  )}
+                  <h3 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
+                    {project.title}
+                  </h3>
+                </div>
+
+                <p className="text-lg text-slate-400 leading-relaxed font-light">
+                  {project.description}
+                </p>
+
+                <div className={`flex flex-wrap gap-4 ${index % 2 !== 0 ? 'justify-end' : ''}`}>
+                  <div className="flex flex-col items-center">
+                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Year</span>
+                    <span className="text-white font-bold">{project.year}</span>
+                  </div>
+                  <div className="w-px h-8 bg-white/10"></div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Status</span>
+                    <span className="text-emerald-400 font-bold">{project.isDevelopment ? 'Live Beta' : 'Production'}</span>
+                  </div>
+                </div>
+
+                <div className={`flex items-center gap-6 ${index % 2 !== 0 ? 'justify-end' : ''}`}>
+                  <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="group/btn relative px-10 py-5 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] rounded-2xl flex items-center gap-3 transition-all duration-500 hover:bg-blue-600 hover:text-white shadow-2xl active:scale-95"
+                  >
+                    Launch Experience
+                    <ArrowUpRight size={18} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  </a>
+                  <button className="p-5 bg-white/5 border border-white/10 rounded-2xl text-white hover:bg-white/10 transition-all active:scale-95">
+                    <Github size={20} />
+                  </button>
                 </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
