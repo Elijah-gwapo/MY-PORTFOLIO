@@ -8,7 +8,7 @@ const customCSS = `
   @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
   @keyframes float-delayed { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
-  @keyframes wiggle { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+  @keyframes wiggle { 0%, 10  0% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
   @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
   @keyframes shimmer { 0% { transform: translateX(-100%) skewX(-12deg); } 100% { transform: translateX(200%) skewX(-12deg); } }
   .glass-panel { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }

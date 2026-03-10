@@ -71,7 +71,7 @@ export default function About() {
             <div className="grid lg:grid-cols-2 gap-16 items-start relative z-10">
               <div className="space-y-8">
                 <p className="text-2xl md:text-3xl text-white font-light leading-relaxed">
-                  I'm <span className="text-white font-black text-glow">Elijah Alrhoy Ortega</span>, an Information Technology undergraduate at Benedicto College. 
+                  I'm <span className="text-white font-black text-glow">Elijah Alrhoy Ortega</span>, an Information Technology student at Benedicto College. 
                 </p>
                 <p className="text-lg text-slate-400 leading-relaxed font-light">
                   I specialize in creating immersive digital experiences. My journey from AMA Computer Learning Center to my current studies has been fueled by a passion for modern web engineering and clean, scalable code.
