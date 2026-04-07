@@ -1,159 +1,240 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ExternalLink, ArrowUpRight, Github, Layout, Server, Database } from 'lucide-react';
-import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowUpRight, Activity, Box, Github, Layers } from 'lucide-react';
+import HackerText from './HackerText';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Projects() {
-  const containerRef = useRef(null);
+const PROJECTS_DATA = [
+  {
+    id: 1,
+    title: "Own Inventory System",
+    category: "SYSTEM DESIGN",
+    description: "A full-stack inventory management system with real-time updates and automated reporting.",
+    image: "/invtry-landing.png",
+    year: "2025",
+    tech: ["HTML", "CSS", "JavaScript"],
+    link: "https://elijahinventory.netlify.app/"
+  },
+  {
+    id: 2,
+    title: "Codigo Clothing",
+    category: "WEB INTERFACE",
+    description: "A minimal e-commerce landing page for a fashion brand, built with modern UI patterns and smooth animations.",
+    image: "/codigo-landing.png",
+    year: "2025",
+    tech: ["React", "Tailwind", "GSAP"],
+    link: "https://decodetheculture.vercel.app/"
+  },
+  {
+    id: 3,
+    title: "Fonus Federation",
+    category: "SERVICE PLATFORM",
+    description: "A digital platform for a federation cooperative to manage memorial services and membership data.",
+    image: "/fonus.png",
+    year: "2026",
+    tech: ["Next.js", "Firebase", "Netlify"],
+    link: "https://fonuscebu.netlify.app/"
+  },
+  {
+    id: 4,
+    title: "Brisasolei Resort",
+    category: "BOOKING SYSTEM",
+    description: "A booking and reservation system designed for a resort, featuring real-time availability.",
+    image: "/brisasolei.png",
+    year: "2025",
+    tech: ["Next.js", "PostgreSQL", "Tailwind"],
+    link: "https://brisasolei.netlify.app/"
+  },
+  {
+    id: 5,
+    title: "SHS Grading System",
+    category: "ACADEMIC TOOL",
+    description: "A grading and student record system built for Benedicto College to streamline academic workflows.",
+    image: "/benedicto.jpeg",
+    year: "2024",
+    tech: ["Angular", "JavaScript", "Bootstrap", "MySQL"],
+    link: "#"
+  }
+];
 
-  const projects = [
-    {
-      id: 3,
-      title: "FONUS Cebu Federation",
-      category: "E-Commerce & Services",
-      description: "A comprehensive memorial and funeral services platform for a federation cooperative in Cebu. Features memorial plan management, membership programs, and 24/7 service support.",
-      technologies: ["Next.js", "Tailwind", "Firebase", "Cloud Functions"],
-      image: "/fonus.png",
-      year: "2026",
-      link: "https://fonuscebu.netlify.app/",
-      accent: "from-blue-600 to-cyan-500"
-    },
-    {
-      id: 2,
-      title: "Brisasolei Resort",
-      category: "Booking System",
-      description: "A comprehensive resort booking system currently in development. Features real-time availability checking, secure payment processing, and an intuitive admin dashboard.",
-      technologies: ["Next.js", "PostgreSQL", "Prisma", "Tailwind"],
-      image: "/brisasolei.png",
-      year: "IN DEV",
-      link: "https://brisasolei.netlify.app/",
-      isDevelopment: true,
-      accent: "from-emerald-600 to-teal-500"
-    },
-    {
-      id: 1,
-      title: "SHS Grading System",
-      category: "Academic Tool",
-      description: "A robust academic management platform for Benedicto College, streamlining grading workflows and student records for the senior high school department.",
-      technologies: ["React", "JavaScript", "Bootstrap", "MySQL"],
-      image: "/benedicto.jpeg",
-      year: "2024",
-      isAcademic: true,
-      accent: "from-indigo-600 to-blue-500"
-    }
-  ];
+export default function Projects() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef(null);
+  const viewportRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Trigger switching when the project narrative hits the center of the viewport
+      PROJECTS_DATA.forEach((_, index) => {
+        ScrollTrigger.create({
+          trigger: `#project-narrative-${index}`,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => setActiveIndex(index),
+          onEnterBack: () => setActiveIndex(index),
+        });
+      });
+
+      // Pinning logic with an exit fade-out
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: viewportRef.current,
+        pinSpacing: false,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          // Fade out the viewport content as we reach the very end of the section
+          if (viewportRef.current) {
+            const progress = self.progress;
+            const content = viewportRef.current.querySelector('.viewport-content');
+            if (content) {
+              if (progress > 0.98) {
+                content.style.opacity = (1 - (progress - 0.98) * 50).toString();
+                content.style.transform = `scale(${1 - (progress - 0.98) * 0.5})`;
+              } else {
+                content.style.opacity = "1";
+                content.style.transform = "scale(1)";
+              }
+            }
+          }
+        }
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="projects" ref={containerRef} className="py-32 bg-[#030308] relative overflow-hidden bg-grid">
-      
-      {/* Background large stroke text */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none z-0">
-        <h2 className="text-[20vw] font-black text-white/[0.02] uppercase tracking-tighter leading-none select-none">
+    <div className="bg-[#030308]" id="projects">
+      {/* Background large decorative text */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 pointer-events-none z-0 select-none opacity-[0.1]">
+        <h2 className="text-[15vw] md:text-[20vw] font-black text-white uppercase tracking-tighter leading-none whitespace-nowrap">
           WORKS
         </h2>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center mb-32 text-center"
-        >
-          <div className="relative">
-            <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter relative z-10">My Projects</h2>
-            <span className="absolute -top-10 -right-12 text-8xl font-black text-white/[0.03] italic pointer-events-none select-none">04</span>
+      {/* 1. Title Section */}
+      <section className="pt-48 pb-24 px-10 md:px-20 bg-[#030308]">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
+            <div className="space-y-6">
+              <h2 className="text-7xl md:text-9xl font-black text-white uppercase tracking-tighter leading-none">
+                <HackerText text="SELECTED" speed={30} /> <br /> <span className="text-[#38BDF8]"><HackerText text="WORKS." speed={50} /></span>
+              </h2>
+            </div>
+            <div className="max-w-md space-y-6 border-l border-white/10 pl-8 pb-4">
+              <p className="text-slate-500 text-sm uppercase tracking-[0.2em] font-light leading-relaxed">
+                A collection of web applications and systems I've built, focusing on <span className="text-white">solving real-world problems with efficient code.</span>
+              </p>
+            </div>
           </div>
-          <div className="w-24 h-1.5 bg-blue-600 mt-8 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.5)]"></div>
-        </motion.div>
-        
-        <div className="grid grid-cols-1 gap-32 max-w-7xl mx-auto">
-          {projects.map((project, index) => (
-            <motion.div 
-              key={project.id}
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true, margin: "-100px" }}
-              className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
-            >
-              {/* Image Showcase */}
-              <div className="w-full lg:w-3/5 group cursor-pointer relative">
-                <div className="relative aspect-[16/10] rounded-[3rem] overflow-hidden bg-slate-900 shadow-2xl transition-all duration-700 group-hover:scale-[0.98]">
-                  <Image 
-                    src={project.image} 
-                    alt={project.title} 
-                    fill 
-                    className="object-cover object-top transition-transform duration-1000 group-hover:scale-110" 
+        </div>
+      </section>
+
+      {/* 2. Split-Screen Project Console */}
+      <section ref={containerRef} className="relative">
+        <div className="flex flex-col lg:flex-row min-h-screen">
+          
+          {/* Left Side: Fixed Project Viewport */}
+          <div ref={viewportRef} className="w-full lg:w-1/2 h-[40vh] lg:h-screen sticky top-0 bg-[#030308] overflow-hidden border-r border-white/5">
+            <div className="viewport-content w-full h-full relative transition-all duration-300">
+              <div className="absolute top-0 left-0 w-full p-6 md:p-8 flex justify-between items-center z-50">
+                <div className="flex items-center gap-4">
+                  <Box size={16} className="text-[#38BDF8]" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-[0.5em]">Project_Observer // 0{activeIndex + 1}</span>
+                </div>
+                <div className="flex items-center gap-6 opacity-40 hidden md:flex">
+                  <Activity size={14} className="text-[#38BDF8]" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">MINIMAL_DISPLAY</span>
+                </div>
+              </div>
+
+              <div className="relative w-full h-full p-8 lg:p-12 flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeIndex}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -40 }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full h-full relative"
+                  >
+                    <Image 
+                      src={PROJECTS_DATA[activeIndex].image} 
+                      alt={PROJECTS_DATA[activeIndex].title}
+                      fill
+                      className="object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.3)]"
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex gap-2">
+                {PROJECTS_DATA.map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={`h-0.5 flex-grow transition-all duration-500 ${i === activeIndex ? 'bg-[#38BDF8]' : 'bg-white/10'}`}
                   />
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-20 mix-blend-overlay`}></div>
-                  
-                  {/* Floating Tech Badges */}
-                  <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end z-20">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.slice(0, 3).map((tech, i) => (
-                        <span key={i} className="px-4 py-2 bg-black/60 backdrop-blur-md border border-white/10 rounded-xl text-[8px] font-black text-white uppercase tracking-widest">{tech}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side: Scrollable Technical Details */}
+          <div className="w-full lg:w-1/2 px-6 md:px-24 bg-[#030308]">
+            <div className="flex flex-col pb-[50vh]">
+              {PROJECTS_DATA.map((project, index) => (
+                <div key={project.id} id={`project-narrative-${index}`} className="min-h-[80vh] lg:h-screen flex flex-col justify-center border-b border-white/5 last:border-0 py-20 lg:py-0">
+                  <div className="space-y-8 md:space-y-12">
+                    <div className="flex items-center gap-6">
+                      <span className="text-[10px] font-black text-[#38BDF8] uppercase tracking-[0.5em]">{project.category}</span>
+                      <div className="h-px flex-grow bg-white/10"></div>
+                      <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{project.year}</span>
+                    </div>
+
+                    <h3 id={`project-title-${index}`} className="text-4xl md:text-7xl text-white font-black uppercase tracking-tighter leading-none">
+                      <HackerText text={project.title} speed={30} />
+                    </h3>
+
+                    <p className="text-lg md:text-2xl font-light text-slate-500 leading-relaxed max-w-lg border-l-2 border-[#38BDF8]/20 pl-6 md:pl-8 uppercase tracking-wide">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 pt-4">
+                      {project.tech.map(t => (
+                        <span key={t} className="px-3 md:px-4 py-1.5 bg-white/[0.03] border border-white/5 rounded-full text-[8px] font-black uppercase tracking-widest text-slate-400">{t}</span>
                       ))}
+                    </div>
+
+                    <div className="pt-6 md:pt-10">
+                      <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-4 md:gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-white hover:text-[#38BDF8] transition-all"
+                      >
+                        EXECUTE VIEW
+                        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-[#38BDF8] group-hover:border-[#38BDF8] group-hover:text-[#030308] transition-all duration-700 shadow-[0_0_20px_rgba(56,189,248,0)] group-hover:shadow-[0_0_30px_rgba(56,189,248,0.2)]">
+                          <ArrowUpRight size={20} className="md:size-[24px]" />
+                        </div>
+                      </a>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
 
-              {/* Content Details */}
-              <div className={`w-full lg:w-2/5 space-y-8 ${index % 2 !== 0 ? 'lg:text-right lg:items-end' : ''} flex flex-col`}>
-                <div className="space-y-4">
-                  <div className={`flex items-center gap-4 text-blue-500 font-black tracking-widest text-[10px] uppercase ${index % 2 !== 0 ? 'justify-end' : ''}`}>
-                    <span className="w-8 h-px bg-blue-500/50"></span>
-                    {project.category}
-                    <span className="w-8 h-px bg-blue-500/50"></span>
-                  </div>
-                  <h3 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">
-                    {project.title}
-                  </h3>
-                </div>
-
-                <p className="text-lg text-slate-400 leading-relaxed font-light">
-                  {project.description}
-                </p>
-
-                <div className={`flex flex-wrap gap-4 ${index % 2 !== 0 ? 'justify-end' : ''}`}>
-                  <div className="flex flex-col items-center">
-                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Year</span>
-                    <span className="text-white font-bold">{project.year}</span>
-                  </div>
-                  <div className="w-px h-8 bg-white/10"></div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Status</span>
-                    <span className="text-emerald-400 font-bold">{project.isDevelopment ? 'Live Beta' : 'Production'}</span>
-                  </div>
-                </div>
-
-                <div className={`flex items-center gap-6 ${index % 2 !== 0 ? 'justify-end' : ''}`}>
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="group/btn relative px-10 py-5 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] rounded-2xl flex items-center gap-3 transition-all duration-500 hover:bg-blue-600 hover:text-white shadow-2xl active:scale-95"
-                  >
-                    Launch Experience
-                    <ArrowUpRight size={18} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-                  </a>
-                  <button className="p-5 bg-white/5 border border-white/10 rounded-2xl text-white hover:bg-white/10 transition-all active:scale-95">
-                    <Github size={20} />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

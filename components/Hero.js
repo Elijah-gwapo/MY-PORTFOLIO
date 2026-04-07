@@ -1,203 +1,145 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FileText, ArrowRight, Shield, Zap, Code2 } from 'lucide-react';
-import MagneticButton from './MagneticButton';
-import HackerText from './HackerText';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import HackerText from './HackerText';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TechNode = ({ delay, x, y }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0 }}
-    animate={{ 
-      opacity: [0.1, 0.4, 0.1], 
-      scale: [1, 1.5, 1],
-      x: [0, 15, 0],
-      y: [0, -15, 0]
-    }}
-    transition={{ 
-      duration: 5 + Math.random() * 3, 
-      repeat: Infinity, 
-      delay 
-    }}
-    className="absolute w-1 h-1 bg-blue-500 rounded-full"
-    style={{ left: `${x}%`, top: `${y}%`, boxShadow: '0 0 15px #3b82f6' }}
-  />
-);
-
 export default function Hero() {
-  const bgRef = useRef(null);
-  const textRef = useRef(null);
   const containerRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const textRef = useRef(null);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
-    // Parallax effect for the background image
-    gsap.to(bgRef.current, {
-      yPercent: 30,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: "#home",
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
+    const ctx = gsap.context(() => {
+      // 1. Textback Parallax (Adjusted for upward motion)
+      gsap.to(".hero-textback", {
+        yPercent: -10,
+        scale: 1.1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
 
-    // Parallax effect for the large background text
-    gsap.to(textRef.current, {
-      xPercent: 15,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: "#home",
+      // 2. Pin and Fade Effect
+      gsap.to(".hero-main-content", {
+        opacity: 0,
+        y: -50,
+        scale: 0.95,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      ScrollTrigger.create({
+        trigger: containerRef.current,
         start: "top top",
         end: "bottom top",
-        scrub: true
-      }
-    });
+        pin: true,
+        pinSpacing: false
+      });
+
+      // 3. Floating Scroll Indicator
+      gsap.to(scrollRef.current, {
+        y: 10,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        duration: 2
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
-
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    const x = (clientX / innerWidth - 0.5) * 30;
-    const y = (clientY / innerHeight - 0.5) * 30;
-    setMousePos({ x, y });
-  };
 
   return (
     <section 
       id="home" 
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="pt-32 pb-20 min-h-screen flex items-center bg-[#030308] relative overflow-hidden bg-grid"
+      className="relative min-h-screen flex items-center bg-[#030308] overflow-hidden px-6 md:px-20 z-0"
     >
-      {/* Background Profile Image */}
-      <div 
-        ref={bgRef} 
-        className="absolute right-0 top-0 w-full h-[120%] md:w-[65%] opacity-40 md:opacity-70 pointer-events-none select-none overflow-hidden"
-        style={{ transform: `translate(${mousePos.x * -0.6}px, ${mousePos.y * -0.6}px)` }}
-      >
-        <div className="relative w-full h-full">
+      {/* Textback Integration (Unboxed Background) */}
+      <div className="absolute inset-0 pointer-events-none z-10 flex justify-end">
+        <div className="relative w-full lg:w-2/3 h-full">
+          {/* Internal Textback Layer (Positioned at Bottom) */}
+          <div className="absolute inset-x-0 bottom-10 flex justify-center opacity-[0.15] z-0">
+            <h2 className="text-[18vw] md:text-[12vw] font-black text-[#38BDF8] uppercase tracking-tighter leading-none whitespace-nowrap select-none">
+              STAY FOCUSED
+            </h2>
+          </div>
+
           <Image 
             src="/bw-elijah.png" 
-            alt="Elijah Alrhoy Ortega Background" 
+            alt="Elijah Ortega Textback" 
             fill
-            className="object-cover object-[right_45%] scale-110 grayscale brightness-75"
-            style={{ clipPath: 'inset(0 0 8% 0)' }}
+            className="hero-textback object-cover object-[center_25%] grayscale mix-blend-luminosity opacity-60 brightness-110 z-10"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#030308] via-[#030308]/50 to-transparent z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#030308] via-transparent to-transparent z-10"></div>
+          {/* Advanced Gradient Masking */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#030308] via-[#030308]/20 to-transparent z-20"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#030308] via-transparent to-transparent opacity-60 z-20"></div>
         </div>
       </div>
 
-      {/* Tech Nodes / Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <TechNode key={i} delay={i * 0.4} x={Math.random() * 100} y={Math.random() * 100} />
-        ))}
-      </div>
-
-      {/* Large background decorative text */}
-      <div className="absolute -bottom-10 -left-10 pointer-events-none z-0">
-        <h2 ref={textRef} className="text-[20vw] font-black text-white/[0.03] uppercase tracking-tighter leading-none select-none">
-          DEVELOPER
-        </h2>
-      </div>
-
-      <div className="container mx-auto px-6 relative z-40">
-        <div className="flex flex-col items-start max-w-4xl">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex items-center gap-4 mb-8"
-          >
-            <div className="h-px w-12 bg-blue-500/50"></div>
-            <span className="text-blue-500 font-black tracking-[0.4em] uppercase text-[10px] flex items-center gap-2">
-              <Code2 size={14} className="animate-pulse" />
-              Web Developer & Engineer
+      <div className="container mx-auto grid lg:grid-cols-12 gap-12 items-center relative z-20 pt-32 lg:pt-20 hero-main-content">
+        
+        {/* Left Side: Editorial Typography */}
+        <div ref={textRef} className="lg:col-span-8 space-y-8 md:space-y-12">
+          <div className="space-y-4">
+            <span className="hero-meta block text-[10px] font-black text-[#38BDF8] uppercase tracking-[0.8em]">
+              DEVELOPER
             </span>
-          </motion.div>
-
-          <div className="mb-10">
-            <motion.h1 
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-7xl md:text-9xl lg:text-[11rem] font-black text-white tracking-tighter leading-[0.8] uppercase"
-            >
-              <HackerText text="ELIJAH" className="block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-slate-400 to-slate-700">
-                <HackerText text="ORTEGA" />
-              </span>
-              <span className="text-blue-600">.</span>
-            </motion.h1>
+            
+            <h1 className="text-[14vw] md:text-[10vw] font-black tracking-tighter leading-[0.85] text-white uppercase select-none">
+              <div className="overflow-hidden">
+                <HackerText text="ELIJAH" speed={40} delay={4500} />
+              </div>
+              <div className="overflow-hidden">
+                <span className="text-[#38BDF8]"><HackerText text="ORTEGA." speed={60} delay={4700} /></span>
+              </div>
+            </h1>
           </div>
 
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-xl md:text-3xl text-slate-400 max-w-2xl leading-relaxed mb-16 font-light"
-          >
-            Transforming complex ideas into <span className="text-white font-medium italic underline underline-offset-8 decoration-blue-600/50">High-Performance</span> web applications through modern engineering.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-wrap items-center gap-8"
-          >
-            <MagneticButton>
-              <a 
-                href="/resume.pdf" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-12 py-5 bg-blue-600 hover:bg-blue-500 text-white font-black tracking-widest rounded-full transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(37,99,235,0.4)] hover:scale-105 active:scale-95 uppercase text-xs border border-white/10"
-              >
-                <Shield size={18} /> 
-                View Resume
-              </a>
-            </MagneticButton>
-
-            <MagneticButton>
-              <Link 
-                href="#projects" 
-                className="group flex items-center gap-4 text-white hover:text-blue-400 transition-all duration-300"
-              >
-                <span className="text-xl font-bold tracking-widest uppercase border-b-2 border-white/10 group-hover:border-blue-400/50 pb-1">Projects</span>
-                <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-400/10 transition-all shadow-xl">
-                  <ArrowRight className="transform group-hover:translate-x-1 transition-transform" />
-                </div>
-              </Link>
-            </MagneticButton>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Floating Status Bar */}
-      <div className="absolute bottom-12 left-12 hidden lg:flex items-center gap-8 opacity-40">
-        <div className="flex flex-col gap-1">
-          <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Stack.Active</span>
-          <div className="flex gap-2">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-slate-700 rounded-full"></div>
-            <div className="w-2 h-2 bg-slate-700 rounded-full"></div>
+          <div className="hero-desc space-y-6 md:space-y-8 pt-6 md:pt-8 border-l border-white/10 pl-6 md:pl-8">
+            <p className="text-slate-400 text-lg md:text-2xl font-light max-w-lg leading-relaxed uppercase tracking-tighter">
+              Building <span className="text-white">High-Performance Applications</span> <br />
+              with a focus on clean logic, <br />
+              architecture, and interaction.
+            </p>
+            
+            <div className="flex gap-8 md:gap-12 pt-4">
+              <button className="group text-[10px] font-black text-white uppercase tracking-[0.4em] flex items-center gap-4 transition-all hover:gap-6">
+                VIEW ARCHIVE
+                <div className="w-8 h-px bg-[#38BDF8]"></div>
+              </button>
+            </div>
           </div>
         </div>
-        <div className="h-8 w-px bg-white/10"></div>
-        <div className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em]">Based in Cebu, PH</div>
+
       </div>
+
+      {/* Floating Scroll Indicator */}
+      <div 
+        ref={scrollRef}
+        className="absolute bottom-12 left-6 md:left-20 flex flex-col items-start gap-4 z-20"
+      >
+        <span className="text-[8px] font-black text-slate-700 uppercase tracking-[0.5em] [writing-mode:vertical-lr]">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-[#38BDF8] to-transparent"></div>
+      </div>
+
+      {/* Background Atmosphere */}
+      <div className="absolute top-1/2 left-0 w-[50vw] h-[50vw] bg-[#38BDF8]/5 bg-[#38BDF8]/5 rounded-full blur-[150px] pointer-events-none -translate-x-1/2"></div>
     </section>
   );
 }

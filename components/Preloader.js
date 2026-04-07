@@ -15,81 +15,74 @@ export default function Preloader() {
           setTimeout(() => setLoading(false), 500);
           return 100;
         }
-        return prev + 2;
+        const remaining = 100 - prev;
+        const jump = Math.max(1, Math.floor(remaining / 12));
+        return prev + jump;
       });
-    }, 30);
+    }, 70);
 
     return () => clearInterval(interval);
   }, []);
+
+  const words = ["LOGIC", "ARCHITECTURE", "DESIGN", "FULL-STACK", "DEVELOPER", "ELIJAH ORTEGA"];
 
   return (
     <AnimatePresence>
       {loading && (
         <motion.div
-          initial={{ opacity: 1 }}
+          initial={{ y: "0%" }}
           exit={{ 
-            y: -1000,
-            opacity: 0,
-            transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+            y: ["0%", "15%", "-100%"],
+            transition: { 
+              times: [0, 0.2, 1],
+              duration: 1.2, 
+              ease: [0.76, 0, 0.24, 1] 
+            }
           }}
-          className="fixed inset-0 z-[9999] bg-[#030308] flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[9999] bg-[#030308] flex items-center justify-center overflow-hidden"
         >
-          {/* Animated Background Grid */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
-          
-          <div className="relative flex flex-col items-center">
-            {/* Logo Animation */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="mb-12"
-            >
-              <h1 className="text-8xl md:text-9xl font-black text-white tracking-tighter">
-                EO<span className="text-blue-600">.</span>
-              </h1>
-            </motion.div>
-
-            {/* Progress Bar Container */}
-            <div className="w-64 h-[2px] bg-white/10 rounded-full overflow-hidden relative mb-4">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${percent}%` }}
-                className="absolute top-0 left-0 h-full bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.8)]"
-              />
+          {/* Content that fades out as the shutter "dips" */}
+          <motion.div 
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="relative w-full h-full flex flex-col items-center justify-center"
+          >
+            <div className="relative h-20 flex items-center justify-center mb-4">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={Math.floor(percent / 16.7)}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="text-4xl md:text-6xl font-black text-white uppercase tracking-[0.2em] italic"
+                >
+                  {words[Math.min(words.length - 1, Math.floor(percent / 16.7))]}
+                </motion.span>
+              </AnimatePresence>
             </div>
 
-            {/* Status Text */}
-            <div className="flex justify-between w-64 px-1">
-              <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">
-                Initializing System
-              </span>
-              <span className="text-[10px] font-black text-white uppercase tracking-widest tabular-nums">
-                {percent}%
-              </span>
+            <div className="absolute bottom-12 right-12">
+               <span className="text-8xl md:text-[12rem] font-black text-white/[0.03] tabular-nums tracking-tighter leading-none select-none">
+                 {percent}
+               </span>
             </div>
 
-            {/* Decorative Scanning Line */}
             <motion.div 
-              animate={{ 
-                top: ['0%', '100%', '0%'],
-                opacity: [0, 1, 0]
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute -left-20 -right-20 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent pointer-events-none"
+              style={{ top: `${percent}%` }}
+              className="absolute left-0 right-0 h-px bg-[#38BDF8]/50 shadow-[0_0_20px_#38BDF8]"
             />
-          </div>
 
-          {/* Large background stroke text */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-5">
-            <h2 className="text-[10vw] font-black text-white uppercase tracking-tighter leading-none whitespace-nowrap">
-              STAY FOCUSED
-            </h2>
-          </div>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[80vw] h-[80vh] border border-white/[0.02] rounded-full" />
+            </div>
+
+            {/* Bottom decorative text - Positioned to fit perfectly */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-10">
+              <h2 className="text-[7vw] md:text-[10vw] font-black text-white uppercase tracking-tighter leading-none whitespace-nowrap italic">
+                STAY FOCUSED
+              </h2>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

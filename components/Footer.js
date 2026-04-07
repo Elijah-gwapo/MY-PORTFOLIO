@@ -31,9 +31,9 @@ export default function Footer() {
 
         <div className="text-center">
           <h2 className="text-xl font-black text-white tracking-tighter mb-2">
-            ELIJAH<span className="text-blue-600">.</span>
+            ELIJAH<span className="text-[#38BDF8]">.</span>
           </h2>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold">
+          <p className="text-[10px] uppercase tracking-[0.4em] text-slate-700 font-bold">
             &copy; 2026 Designed & Engineered by Elijah Ortega
           </p>
         </div>

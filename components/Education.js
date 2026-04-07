@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { GraduationCap, ArrowRight } from 'lucide-react';
+import HackerText from './HackerText';
 
 export default function Education() {
   const educationItems = [
@@ -35,10 +36,11 @@ export default function Education() {
           viewport={{ once: true }}
           className="mb-24"
         >
-          <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-4">
-            Education<span className="text-blue-600">.</span>
+          <h2 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter mb-4 leading-none">
+            <HackerText text="Technical" speed={30} /> <br />
+            <span className="text-[#38BDF8]"><HackerText text="Foundation." speed={50} /></span>
           </h2>
-          <div className="h-1 w-20 bg-blue-600 rounded-full"></div>
+          <div className="h-1 w-20 bg-[#38BDF8] rounded-full"></div>
         </motion.div>
         
         <div className="max-w-5xl">
@@ -52,28 +54,28 @@ export default function Education() {
               className="group border-b border-white/5 py-12 flex flex-col md:flex-row md:items-center gap-8 md:gap-20 hover:bg-white/[0.01] transition-all px-4 rounded-xl"
             >
               <div className="w-32 flex-shrink-0">
-                <span className="text-xs font-black text-slate-500 uppercase tracking-[0.3em]">
+                <span className="text-xs font-black text-slate-600 uppercase tracking-[0.3em]">
                   {item.date}
                 </span>
               </div>
 
               <div className="flex-grow">
-                <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 group-hover:text-blue-500 transition-colors">
+                <h3 className="text-2xl md:text-4xl font-bold text-white mb-2 group-hover:text-[#38BDF8] transition-colors uppercase tracking-tight">
                   {item.degree}
                 </h3>
-                <div className="flex items-center gap-3 text-slate-400 font-medium uppercase tracking-widest text-[10px]">
+                <div className="flex items-center gap-3 text-slate-400 font-medium uppercase tracking-[0.2em] text-[10px]">
                   <span>{item.institution}</span>
                 </div>
               </div>
 
               <div className="md:w-1/3">
-                <p className="text-slate-500 text-sm leading-relaxed font-light">
+                <p className="text-slate-500 text-sm leading-relaxed font-light uppercase tracking-wide">
                   {item.description}
                 </p>
               </div>
 
               <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">
-                <ArrowRight className="text-blue-600 w-6 h-6" />
+                <ArrowRight className="text-[#38BDF8] w-6 h-6" />
               </div>
             </motion.div>
           ))}
