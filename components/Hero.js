@@ -123,6 +123,15 @@ export default function Hero() {
                 VIEW ARCHIVE
                 <div className="w-8 h-px bg-[#38BDF8]"></div>
               </button>
+
+              <a 
+                href="/eaortega-resume.pdf" 
+                download="Elijah_Ortega_Resume.pdf"
+                className="group text-[10px] font-black text-[#38BDF8] uppercase tracking-[0.4em] flex items-center gap-4 transition-all hover:gap-6"
+              >
+                DOWNLOAD RESUME
+                <div className="w-8 h-px bg-white"></div>
+              </a>
             </div>
           </div>
         </div>

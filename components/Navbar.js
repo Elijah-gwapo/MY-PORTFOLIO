@@ -21,6 +21,7 @@ export default function Navbar() {
     { name: 'Works', href: '#projects' },
     { name: 'Gallery', href: '#gallery' },
     { name: 'Contact', href: '#contact' },
+    { name: 'Resume', href: '/eaortega-resume.pdf', download: true },
   ];
 
   return (
@@ -39,14 +40,26 @@ export default function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-12">
           {navLinks.map((link, i) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 hover:text-white transition-colors duration-500 relative group"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#38BDF8] group-hover:w-full transition-all duration-500"></span>
-            </Link>
+            link.download ? (
+              <a 
+                key={link.name} 
+                href={link.href} 
+                download="Elijah_Ortega_Resume.pdf"
+                className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8] hover:text-white transition-colors duration-500 relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#38BDF8] group-hover:w-full transition-all duration-500"></span>
+              </a>
+            ) : (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 hover:text-white transition-colors duration-500 relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#38BDF8] group-hover:w-full transition-all duration-500"></span>
+              </Link>
+            )
           ))}
         </div>
 
@@ -76,13 +89,24 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                   >
-                    <Link 
-                      href={link.href} 
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-2xl font-black uppercase tracking-[0.3em] text-slate-500 hover:text-[#38BDF8] transition-colors"
-                    >
-                      {link.name}
-                    </Link>
+                    {link.download ? (
+                      <a 
+                        href={link.href} 
+                        download="Elijah_Ortega_Resume.pdf"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-2xl font-black uppercase tracking-[0.3em] text-[#38BDF8] hover:text-white transition-colors"
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link 
+                        href={link.href} 
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-2xl font-black uppercase tracking-[0.3em] text-slate-500 hover:text-[#38BDF8] transition-colors"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
                   </motion.div>
                 ))}
               </div>
