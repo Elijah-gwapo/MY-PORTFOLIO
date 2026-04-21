@@ -70,10 +70,10 @@ export default function Projects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Trigger switching when the project narrative hits the center of the viewport
+      // Trigger switching when the project title hits the center of the viewport
       PROJECTS_DATA.forEach((_, index) => {
         ScrollTrigger.create({
-          trigger: `#project-narrative-${index}`,
+          trigger: `#project-title-${index}`,
           start: "top center",
           end: "bottom center",
           onEnter: () => setActiveIndex(index),
@@ -157,14 +157,14 @@ export default function Projects() {
               </div>
 
               <div className="relative w-full h-full p-8 lg:p-12 flex items-center justify-center">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="popLayout">
                   <motion.div
                     key={activeIndex}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -40 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="w-full h-full relative"
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -30, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full h-full relative flex items-center justify-center"
                   >
                     <Image 
                       src={PROJECTS_DATA[activeIndex].image} 
