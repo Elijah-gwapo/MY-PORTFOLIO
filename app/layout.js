@@ -13,8 +13,27 @@ const playfair = Playfair_Display({
 })
 
 export const metadata = {
-  title: 'Elijah Ortega | Creative Developer',
-  description: 'IT Student & Web Developer focusing on high-end digital experiences and refined engineering.',
+  title: 'Elijah Alrhoy Ortega - Portfolio',
+  description: 'Junior Developer passionate about creating beautiful, responsive websites and applications.',
+  openGraph: {
+    title: 'Elijah Alrhoy Ortega - Portfolio',
+    description: 'Junior Developer passionate about creating beautiful, responsive websites and applications.',
+    images: [
+      {
+        url: '/bw-elijah.png',
+        width: 1200,
+        height: 630,
+        alt: 'Elijah Alrhoy Ortega',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Elijah Alrhoy Ortega - Portfolio',
+    description: 'Junior Developer passionate about creating beautiful, responsive websites and applications.',
+    images: ['/bw-elijah.png'],
+  },
 }
 
 export default function RootLayout({ children }) {

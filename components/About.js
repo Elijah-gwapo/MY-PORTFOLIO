@@ -47,11 +47,11 @@ export default function About() {
 
             <div className="grid md:grid-cols-2 gap-20">
               <p className="text-xl md:text-2xl font-light leading-relaxed text-slate-400 text-center md:text-left">
-                I'm Elijah Ortega, a Developer based in Cebu. I build high-end web experiences with a focus on clean logic and functional design.
+                I'm <span className="text-white">Elijah Ortega</span>, a Junior Developer based in Cebu. I build high-end web experiences with a focus on clean logic and functional design.
               </p>
               <div className="space-y-10">
                 <p className="text-lg text-slate-500 leading-relaxed font-light text-center md:text-left">
-                  Currently studying Information Technology at Benedicto College, I specialize in building scalable web applications and intuitive interfaces. My approach is to combine technical precision with a clear visual aesthetic to deliver products that work seamlessly and solve real-world problems.
+                  Specializing in building scalable web applications and intuitive interfaces, my approach is to combine technical precision with a clear visual aesthetic to deliver products that work seamlessly and solve real-world problems.
                 </p>
                 <div className="flex flex-col gap-4 border-t border-white/5 pt-10 items-center md:items-start">
                   <span className="text-meta text-slate-600">CORE COMPETENCIES</span>

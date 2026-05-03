@@ -98,7 +98,7 @@ export default function Hero() {
         <div ref={textRef} className="lg:col-span-8 space-y-8 md:space-y-12">
           <div className="space-y-4">
             <span className="hero-meta block text-[10px] font-black text-[#38BDF8] uppercase tracking-[0.8em]">
-              DEVELOPER
+              JUNIOR DEVELOPER
             </span>
             
             <h1 className="text-[14vw] md:text-[10vw] font-black tracking-tighter leading-[0.85] text-white uppercase select-none">
@@ -125,8 +125,9 @@ export default function Hero() {
               </button>
 
               <a 
-                href="/eaortega-resume.pdf" 
-                download="Elijah_Ortega_Resume.pdf"
+                href="/resume.pdf" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group text-[10px] font-black text-[#38BDF8] uppercase tracking-[0.4em] flex items-center gap-4 transition-all hover:gap-6"
               >
                 DOWNLOAD RESUME
